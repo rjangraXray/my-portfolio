@@ -1670,12 +1670,21 @@
         <h3 class="ctit">Ready to Build Something <span class="gt">Amazing?</span></h3>
         <p class="csub">Whether it's an AI project, brand identity, web development, or project coordination — I'm just
           a message away. Let's create something great together.</p>
-        <div class="clinks">
+        
+        <form class="cform" action="javascript:void(0)" onsubmit="alert('Form submitted! You can connect this to Formspree later.');" method="POST">
+          <div class="cform-row">
+             <input type="text" name="name" placeholder="Your Name" required class="cinput">
+             <input type="email" name="email" placeholder="Your Email" required class="cinput">
+          </div>
+          <textarea name="message" rows="4" placeholder="Your Message" required class="cinput"></textarea>
+          <button type="submit" class="ccta" style="width:100%; border:none; cursor:pointer; justify-content:center;">Send Message →</button>
+        </form>
+
+        <div class="clinks" style="margin-top:30px; flex-direction:row; flex-wrap:wrap; justify-content:center;">
           <a href="tel:+919999667327" class="clink"><span class="ci">📱</span><span>+91 9999 667 327</span></a>
           <a href="mailto:rajneesh.jan0007@gmail.com" class="clink"><span
               class="ci">✉️</span><span>rajneesh.jan0007@gmail.com</span></a>
         </div>
-        <a href="mailto:rajneesh.jan0007@gmail.com" class="ccta">Start a Conversation →</a>
       </div>
     </div>
   </section>
@@ -1794,7 +1803,114 @@
       }
     }
     ghFetch();
+
+    // ── CUSTOM CURSOR ──────────────────────────────────────
+    const cursor = document.getElementById('custom-cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button, input, textarea, .pcard, .ecard, .scat, .tlc, .contrib-wrap, .ham').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+
+    // ── SCROLL PROGRESS BAR ────────────────────────────────
+    const progressBar = document.getElementById('progress-bar');
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      progressBar.style.width = (winScroll / height) * 100 + "%";
+    });
+
+    // ── PRELOADER ──────────────────────────────────────────
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const preloader = document.getElementById('preloader');
+        if(preloader) {
+          preloader.style.opacity = '0';
+          setTimeout(() => preloader.style.display = 'none', 500);
+        }
+      }, 500);
+    });
+
   </script>
+
+  <!-- UI/UX ENHANCEMENTS INJECTED CSS -->
+  <style>
+    /* Glassmorphism Enhancements */
+    .tlc, .scat, .pcard, .ecard, .contrib-wrap, .cbox, .mob {
+      background: rgba(255, 255, 255, 0.03) !important;
+      backdrop-filter: blur(16px) !important;
+      -webkit-backdrop-filter: blur(16px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    .tlc:hover, .scat:hover, .pcard:hover, .ecard:hover, .contrib-wrap:hover {
+      background: rgba(255, 255, 255, 0.06) !important;
+      border-color: rgba(124, 109, 255, 0.4) !important;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 20px rgba(124, 109, 255, 0.1) !important;
+    }
+    
+    /* Magnetic / Glowing Buttons */
+    .btnp, .ccta {
+      position: relative; overflow: hidden; z-index: 1;
+    }
+    .btnp::before, .ccta::before {
+      content: ''; position: absolute; top: 50%; left: 50%; width: 300%; height: 300%;
+      background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
+      transform: translate(-50%, -50%) scale(0); transition: transform 0.5s ease; z-index: -1;
+    }
+    .btnp:hover::before, .ccta:hover::before {
+      transform: translate(-50%, -50%) scale(1);
+    }
+    
+    /* Custom Cursor */
+    body { cursor: none; }
+    #custom-cursor {
+      position: fixed; top: 0; left: 0; width: 20px; height: 20px;
+      border: 2px solid var(--p); border-radius: 50%; pointer-events: none; z-index: 10000;
+      transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s;
+      mix-blend-mode: difference;
+    }
+    #custom-cursor.hover {
+      width: 50px; height: 50px; background-color: rgba(124, 109, 255, 0.2);
+    }
+    /* Hide custom cursor on mobile */
+    @media(max-width: 768px) {
+      body { cursor: auto; }
+      #custom-cursor { display: none !important; }
+    }
+    
+    /* Scroll Progress Bar */
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--p), var(--c));
+      z-index: 9999; width: 0%; transition: width 0.1s ease;
+    }
+    
+    /* Preloader */
+    #preloader {
+      position: fixed; inset: 0; background: var(--bg); z-index: 99999;
+      display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease;
+    }
+    .pl-loader {
+      width: 40px; height: 40px; border: 3px solid rgba(124, 109, 255, 0.2);
+      border-top-color: var(--p); border-radius: 50%; animation: pl-spin 1s linear infinite;
+    }
+    @keyframes pl-spin { 100% { transform: rotate(360deg); } }
+    
+    /* Contact Form UI */
+    .cform { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; text-align: left; }
+    .cform-row { display: flex; gap: 14px; }
+    @media(max-width: 600px) { .cform-row { flex-direction: column; } }
+    .cinput { width: 100%; padding: 14px 18px; border-radius: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--border); color: var(--t); font-family: inherit; font-size: 0.95rem; outline: none; transition: .3s ease; }
+    .cinput::placeholder { color: var(--t3); }
+    .cinput:focus { border-color: var(--p); background: rgba(124, 109, 255, 0.05); box-shadow: 0 0 0 3px rgba(124, 109, 255, 0.1); }
+  </style>
+
+  <!-- UI/UX ENHANCEMENTS INJECTED HTML -->
+  <div id="preloader"><div class="pl-loader"></div></div>
+  <div id="progress-bar"></div>
+  <div id="custom-cursor"></div>
 </body>
 
 </html>
